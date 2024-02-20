@@ -4,13 +4,17 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     // Check local storage for user data on component mount
     const storedUserData = localStorage.getItem('userData');
+    console.log('storedUserData', storedUserData);
+
     if (storedUserData) {
       const parsedUserData = JSON.parse(storedUserData);
       setUser(parsedUserData);
+      setRole(parsedUserData.role);
     }
   }, []);
 
@@ -18,6 +22,7 @@ export const AuthProvider = ({ children }) => {
     // Save user data to local storage and set the user state
     localStorage.setItem('userData', JSON.stringify(userData));
     setUser(userData);
+    setRole(userData.role);
   };
 
   const signOut = () => {
@@ -27,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, signIn, signOut,role }}>
       {children}
     </AuthContext.Provider>
   );

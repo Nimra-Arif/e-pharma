@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import DashboardLayout from './DashboardLayout';
 import MyAccountPage from './MyAccountPage';
 import OrderManagement from './OrderManagement';
 import ProductsCatalog from './ProductsCatalog';
-const StaffDashboard = () => {
-  const [selectedTab, setSelectedTab] = useState("Products Catalog");
+import { useAuth } from '../context/AuthContext';
+import { Navigate } from 'react-router-dom';
 
+const StaffDashboard = () => {
+
+  const [selectedTab, setSelectedTab] = useState("Products Catalog");
+  const { user,role } = useAuth();
+
+  if (!user || role !== 'staff') {
+   
+    return <Navigate to="/signin" />;
+  }
+  
   const tabs = [
     {
       label: 'Products Catalog',

@@ -3,10 +3,16 @@ import DashboardLayout from './DashboardLayout';
 import ProductsPage from './ProductsPage';
 import MyAccountPage from './MyAccountPage';
 import ProductsCatalog from './ProductsCatalog';
-
+import { useAuth } from '../context/AuthContext';
+import { Navigate } from 'react-router-dom';
 const AdminDashboard = () => {
   const [selectedTab, setSelectedTab] = useState("Products Catalog");
+  const { user,role } = useAuth();
 
+  if (!user || role !== 'admin') {
+   
+    return <Navigate to="/signin" />;
+  }
   const tabs = [
     {
       label: 'Products Catalog',

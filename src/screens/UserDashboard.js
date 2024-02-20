@@ -4,10 +4,17 @@ import ProductsPage from './ProductsPage';
 import MyAccountPage from './MyAccountPage';
 import CartPage from './CartPage';
 import OrdersPage from './OrdersPage';
+import { useAuth } from '../context/AuthContext';
+import { Navigate } from 'react-router-dom';
 
 const UserDashboard = () => {
   const [selectedTab, setSelectedTab] = useState("Products Catalog");
+  const { user,role } = useAuth();
 
+  if (!user || role !== 'user') {
+   
+    return <Navigate to="/signin" />;
+  }
   const tabs = [
     {
       label: 'Products Catalog',
